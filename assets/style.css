@@ -1,0 +1,206 @@
+body{
+    display:flex;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+}
+#container{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+#header{
+    display: flex;
+    width: 100%;
+    background-color:#FF4136;
+    justify-content: space-between;
+    align-items: center;
+}
+#image{
+    align-self: center;
+    display: flex;
+    float: left;
+    flex-wrap: wrap;
+    height: 2cm;
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding-left: 15px;;
+    font-family:Impact, Charcoal, sans-serif;
+}
+.responsive{
+    height: auto;
+    width:100%;
+}
+#leaters{
+    height: auto;
+    width:100%;
+}
+#content{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    height: 710px;
+    padding-top: 15px;
+    margin-top: 10px;
+    background-size: cover;
+    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.10)),url("./resources/slika6.jpg");
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#tekst{
+    display: flex;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    width: 100%;
+    font-size: 54px;
+    flex-shrink: inherit;
+    flex-direction: column;
+    align-self: center;
+    align-items:center;
+}
+#secondContent{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 15px;
+    flex-direction: row;
+    background-color:white;
+    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.10)),url("./resources/slika2.jpg");
+
+}
+.space{
+    display: flex;
+    border-radius: 3px; 
+    height: 8cm;
+    width: auto;
+    justify-content: center;
+    flex-direction: column;
+    transition: 0.5s;
+    
+
+}
+.space:hover {
+    background:linear-gradient(rgba(0,0,0,0.10),rgba(0,0,0,0.15));
+}
+nav{
+    float: right;
+
+}
+ul li{
+    display: inline-block;
+    list-style: none;
+}
+ul li button{
+    padding-right: 30px;
+    border: none;
+    font-weight: bold;
+    color: white;
+    transition: all 0.5s;
+    background-color: #FF4136;
+
+}
+ul li button:hover{
+    color: rgb(10, 180, 158);
+    text-decoration:none;
+}
+.footer{
+    display:flex;
+    width:100%;
+    height:3cm;
+    margin-top: 15px;
+}
+i {
+    color: white;
+    margin-right:3px;
+}
+.tekst2{
+    color: white;
+}
+.text3{
+    color:white;
+    font-size: 40px;
+}
+.icons{
+    display:flex;
+    font-size: 24px;
+    justify-content: space-evenly;
+
+}
+.differentWord{
+    color: #FF4136;
+}
+#edit{
+    font-size: 80px;
+
+}
+#search{
+    font-size: 80px;
+}
+.link{
+    display: flex;
+    align-self: center;
+}
+.textInSpace{
+    color: white;
+    font-size: 30px;
+}
+.menu{
+    position:absolute;
+    right:10px;
+    background-color:#FF4136 ;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width:1.5cm;
+    height: 1.5cm;
+}
+.spanMenu{
+    background-color: white;
+    height: 3px;
+    width: 100%;
+    border-radius: 3px;
+    align-self: center;
+    transition: all 0.5s;
+
+}
+.spanMenu:hover{
+    background-color:rgb(10, 180, 158); ;
+}
+.menu:hover{
+    background-color:rgb(212, 39, 30) ;
+}
+@media (max-width: 600px){
+    .menu{
+        display: flex;
+    }
+    .navbar{
+        display:none;
+        width:100%;
+    }
+    #header{
+        flex-direction: column;
+    }
+    ul{
+        width:100%;
+        padding: 0;
+    }
+    ul li{
+        display:flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    ul li button{
+        width:100%;
+    }
+    ul li button:hover{
+        background-color:rgb(212, 39, 30) ;
+    }
+    .navbar.active{
+        display: flex;
+    }
+    .content{
+        background-size: contain;
+    }
+}

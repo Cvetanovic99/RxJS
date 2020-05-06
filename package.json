@@ -7,7 +7,7 @@
     "watch": "webpack --watch",
     "start": "webpack-dev-server",
     "build": "webpack-dev-server --entry ./src/index.js --output-filename ./dist/bundle.js",
-    "api": "json-server --watch db.json",
+    "api": "json-server --watch ./services/db.json",
     "gogi": "webpack"
   
 
