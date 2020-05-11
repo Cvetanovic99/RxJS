@@ -48,6 +48,7 @@ body{
     background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.10)),url("./resources/slika6.jpg");
     flex-wrap: wrap;
     justify-content: center;
+    background-attachment: fixed;
 }
 #tekst{
     display: flex;
@@ -108,8 +109,13 @@ ul li button:hover{
 .footer{
     display:flex;
     width:100%;
-    height:3cm;
-    margin-top: 15px;
+    margin-top: 10px;
+    flex-direction: column;
+    background-color: #696969;
+    justify-content: center;
+}
+.contact{
+    align-self: center;
 }
 i {
     color: white;
@@ -203,4 +209,171 @@ i {
     .content{
         background-size: contain;
     }
+    .searchDivsTime{
+        display: flex;
+        flex-direction: column;
+    }
+    .nameAndcontact{
+        flex-direction: column;
+    }
+}
+.searchSection{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgb(194, 65, 53);
+    border: 1px solid rgb(65, 27, 27);
+    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.10)),url("./resources/slika2.jpg");
+}
+.searchDivs{
+    align-self: center;
+    display: flex;
+    justify-content: center;
+}
+.searchDivsTime{
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}
+#byTimeH{
+    width: 1.5cm;
+}
+#byTimeH{
+    width: 1.5cm;
+}
+.searcButton{
+    width: 100%;
+    background-color: #FF4136;
+    color: white;
+    font-weight: bold;
+    border:none;
+    margin-bottom: 0;
+    border: 1px solid rgb(65, 27, 27);
+}
+.searcButton:hover{
+    background-color: rgb(65, 27, 27);
+}
+.eventsContainer{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    justify-content: center;
+    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.10)),url("./resources/slika.jpg");
+    background-attachment: fixed;
+}
+.oneEvent{
+    margin: 15px;
+    align-self: center;
+    border: 2px solid black;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    padding: 3px;
+    border-radius: 5px;
+}
+.eventType{
+    border-bottom:2px solid #FF4136;
+    align-self: center;
+    font-size: 19px;
+    font-weight:bold ;
+}
+.eventDescription{
+    align-self: center;
+    border: 1px solid #FF4136;
+    border-radius: 3px;
+}
+.eventCity{
+    align-self: center;
+    border-bottom:1px solid #FF4136;
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 0;
+    
+}
+.eventLocation{
+    align-self: center;
+    border-bottom: 1px solid #FF4136;
+    font-weight: bold;
+}
+.eventStart{
+    align-self: center;
+    width: 100%;
+    background-color: grey;
+    font-weight: bold ;
+    text-align: center;
+
+}
+.nameAndContact{
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+}
+.name{
+    text-align: center;
+}
+.date{
+    align-self: center;
+}
+.CommentsButton{
+    width:100%;
+    background-color: #FF4136;
+    color: white;
+    border: none;
+    border-bottom: 1px solid rgb(65, 27, 27);
+}
+.CommentsButton:hover{
+    background-color: rgb(65, 27, 27);
+}
+.commentsSection{
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 3px;
+}
+.comentSection{
+    width: 80%;
+    display: flex;
+    align-self: center;
+    border:2px solid black;
+    margin: 5px;
+    border-radius: 5px;
+    flex-direction: column;
+}
+.commentText{
+    border: 1px solid #FF4136;
+    text-align: center;
+    border-radius: 5px;
+}
+.tameAndDate{
+    background-color: grey;
+    text-align:center;
+}
+.NotFound{
+    text-align: center;
+    color: white;
+    font-size: 54px;
+    font-weight:bold;
+}
+.oneByOneDiv{
+    display: flex;
+    flex-direction: row;
+}
+.citiesAndTypes{
+    display: flex;
+    flex-direction: row;
+    width:80%;
+    align-self: center;
+}
+.cityAndType{
+    width: 100%;
+    margin:5px;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+.cityAndTypeDiv{
+    font-size: 45px;
+    color: white;
+    text-align: center;
 }
