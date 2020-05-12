@@ -36,6 +36,67 @@ export function FetchComents(url,eventId,div)
 export function FetchSomeEvents(city,timeFrom,timeFromM,timeTo,timeToM,type)
 {
     const eventsDiv=document.getElementsByClassName("eventsContainer")[0];
+    const arrayOfEvents=new Array();
+    const arrayOfFilteredEvents=new Array();
+    const arrayOfFilteredEventsSecond=new Array();
+    const timeFromInt=parseInt(timeFrom,10);
+    const timeFromMInt=parseInt(timeFromM,10);
+    const timeToInt=parseInt(timeTo,10);
+    const timeToMInt=parseInt(timeToM,10);
+    console.log(timeFromInt,timeFromMInt,timeToInt,timeToMInt);
+    fetch("http://localhost:3000/events?city="+city)
+            .then(response=>response.json())
+            .then(data=>{
+                data.forEach(element=>{
+                    arrayOfEvents.push(new SportEvent(element["id"],element["userName"],element["location"],element["description"],element["userSurname"],element["type"],element["email"],element["phoneNumber"],element["date"],element["city"],element["timeHours"],element["timeMinutes"]));
+                    //console.log(arrayOfEvents);
+                });
+                if(arrayOfEvents.length==0)
+                {
+                    eventsDiv.innerHTML="";
+                    drawNotFound(eventsDiv);
+                }
+                else
+                {
+                    arrayOfEvents.forEach(element=>{
+                        if(element.type==type){
+                            arrayOfFilteredEvents.push(element);
+                        }
+                    });
+                    //console.log(arrayOfFilteredEvents);
+                    if(arrayOfFilteredEvents.length==0)
+                    {
+                        eventsDiv.innerHTML="";
+                        drawNotFound(eventsDiv);
+                    }
+                    else 
+                    {
+                        console.log(arrayOfFilteredEvents);
+                        arrayOfFilteredEvents.forEach(element=>{
+                            if((element.timeHours>=timeFromInt && element.timeMinutes>=timeFromMInt)&&(element.timeHours<=timeToInt))
+                            {
+                                //console.log(element);
+                                arrayOfFilteredEventsSecond.push(element);
+                            }
+                        });
+                        //console.log(arrayOfFilteredEventsSecond);
+                        if(arrayOfFilteredEventsSecond.length==0)
+                        {
+                            eventsDiv.innerHTML="";
+                            drawNotFound(eventsDiv);
+                        }
+                        else
+                        {
+                            eventsDiv.innerHTML="";
+                            arrayOfFilteredEventsSecond.forEach(element=>{
+                                drawOneEvent(eventsDiv,element);
+                            });
+                        }
+                    }
+                }
+
+            })
+
 }
 export function FetchByCity(cityName)
 {
@@ -134,3 +195,16 @@ export function FetchCitiesAndTypes(cities,types,URL)
         }
     )
 }
+export function addEvent(url,event)
+{
+    fetch(url,{method:"POST",
+               headers:{"Content-Type":"application/json"},
+               body: JSON.stringify({"name":event.name,"userName":event.userName,"location":event.location,"description":event.description,"userSurname":event.userSurname,"type":event.type,"email":event.email,"phoneNumber":event.phoneNumber,"date":event.date,"city":event.city,"timeHours":event.timeHours,"timeMinutes":event.timeMinutes})})
+}
+export function addComment(url,comment)
+{
+    console.log(comment);
+     fetch(url,{method:"POST",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({"userName":comment.userName,"text":comment.text,"userSurname":comment.userSurname,"email":comment.email,"phoneNumber":comment.phoneNumber,"date":comment.date,"time":comment.time,"eventId":comment.eventId})});
+ }

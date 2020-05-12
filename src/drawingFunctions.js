@@ -1,11 +1,13 @@
-import {FetchAllEvents, FetchComents,FetchSomeEvents,subscribeSearchToInput,FetchOneByOne,FetchCitiesAndTypes} from "./RxjsFunctions.js";
+import {FetchAllEvents, FetchComents,FetchSomeEvents,subscribeSearchToInput,FetchOneByOne,FetchCitiesAndTypes,addEvent,addComment} from "./RxjsFunctions.js";
 import {SportEvent} from "../classes/SportEvent.js";
+import {Comment} from "../classes/Comment.js";
 import { readBuilderProgram } from "typescript";
 import { fromEvent } from "rxjs";
 import {take} from "rxjs/operators";
 let URLEvents = "http://localhost:3000/events";
 let URLComments = "http://localhost:3000/comments";
 var commentTrue=false;
+var add=false;
 
 
 //location.redirect("./main.html");
@@ -104,21 +106,137 @@ function drawFooter(host){
 
 }
 function drawAddEvent(host){
-    console.log("draw");
+    const addContainer=document.createElement("div");
+    addContainer.className="addContainer";
+    host.appendChild(addContainer);
+    const addInnerContainer=document.createElement("div");
+    addInnerContainer.className="addInnerContainer";
+    addContainer.appendChild(addInnerContainer);
+    const textType=document.createElement("label");
+    textType.className="text";
+    textType.innerText="Type of sport:";
+    addInnerContainer.appendChild(textType);
+    const inputType=document.createElement("select");
+    const types=["Football","Basketball","Volleyball"];
+    types.forEach(element => {
+        const type=document.createElement("option");
+        type.value=element;
+        type.innerText=element;
+        inputType.add(type);
+    });
+
+    inputType.className="inputType";
+    addInnerContainer.appendChild(inputType);
+    const textDescription=document.createElement("label");
+    textDescription.className="text";
+    textDescription.innerText="Description:";
+    addInnerContainer.appendChild(textDescription);
+    const inputDescription=document.createElement("textarea");
+    inputDescription.className="inputDescription";
+    inputDescription.style.resize="none";
+    inputDescription.style.height="3cm"
+    addInnerContainer.appendChild(inputDescription);
+    const divPersonalData=document.createElement("div");
+    divPersonalData.className="divPersonalData";
+    addInnerContainer.appendChild(divPersonalData);
+    const divNameSurname=document.createElement("div");
+    divNameSurname.className="divNameSurname";
+    divPersonalData.appendChild(divNameSurname);
+    const textName=document.createElement("label");
+    textName.className="text";
+    textName.innerText="Name:"
+    divNameSurname.appendChild(textName);
+    const inputName=document.createElement("input");
+    inputName.className="inputName";
+    divNameSurname.appendChild(inputName);
+    const textSurname=document.createElement("label");
+    textSurname.className="text";
+    textSurname.innerText="Surname:"
+    divNameSurname.appendChild(textSurname);
+    const inputSurname=document.createElement("input");
+    inputSurname.className="inputSurname";
+    divNameSurname.appendChild(inputSurname);
+    const divPhoneEmail=document.createElement("div");
+    divPhoneEmail.className="divNameSurname";
+    divPersonalData.appendChild(divPhoneEmail);
+    const textPhone=document.createElement("label");
+    textPhone.className="text";
+    textPhone.innerText="Phone number:"
+    divPhoneEmail.appendChild(textPhone);
+    const inputPhone=document.createElement("input");
+    inputPhone.className="inputPhone";
+    divPhoneEmail.appendChild(inputPhone);
+    const textEMail=document.createElement("label");
+    textEMail.className="text";
+    textEMail.innerText="EMail:"
+    divPhoneEmail.appendChild(textEMail);
+    const inputEMail=document.createElement("input");
+    inputEMail.className="inputEMail";
+    divPhoneEmail.appendChild(inputEMail);
+    const textCity=document.createElement("label");
+    textCity.className="text";
+    textCity.innerText="City:";
+    addInnerContainer.appendChild(textCity);
+    const inputCity=document.createElement("input");
+    inputCity.className="inputCity";
+    addInnerContainer.appendChild(inputCity);
+    const textLocation=document.createElement("label");
+    textLocation.className="text";
+    textLocation.innerText="Location:"
+    addInnerContainer.appendChild(textLocation);
+    const inputLocation=document.createElement("input");
+    inputLocation.className="inputLocation";
+    addInnerContainer.appendChild(inputLocation);
+    const timeDiv=document.createElement("div");
+    timeDiv.className="timeDiv";
+    addInnerContainer.appendChild(timeDiv);
+    const textTime=document.createElement("label");
+    textTime.className="text";
+    textTime.innerText="Start time:"
+    timeDiv.appendChild(textTime);
+    const timeH=document.createElement("input");
+    timeH.type="number";
+    timeH.min=0;
+    timeH.max=23;
+    timeDiv.appendChild(timeH);
+    const points=document.createElement("label");
+    points.className="text";
+    points.innerText=":";
+    timeDiv.appendChild(points);
+    const timeM=document.createElement("input");
+    timeM.type="number";
+    timeM.min=0;
+    timeM.max=59;
+    timeDiv.appendChild(timeM);
+    const addButton=document.createElement("button");
+    addButton.className="addEventButton";
+    addButton.innerText="Add event";
+    addInnerContainer.appendChild(addButton);
+    addButton.onclick=()=>{
+        const date=new Date();
+        const today=date.getFullYear()+"."+date.getMonth()+"."+date.getDate();
+        const sportEvent=new SportEvent(null,inputName.value,inputLocation.value,inputDescription.value,inputSurname.value,inputType.value,inputEMail.value,inputPhone.value,today,inputCity.value,timeH.value,timeM.value);
+        addEvent(URLEvents,sportEvent);
+        setTimeout(()=>{drawEvents(document.body)},1000);
+    }
 }
 function drawSearcEvents(host){
+    const events=new Array();
     const eventsContainer=document.createElement("div");
     eventsContainer.className="eventsContainer";
     host.appendChild(eventsContainer);
     const niz=new Array();
-    var i=0;
     FetchAllEvents(URLEvents).subscribe(
         (val)=>{
             val.forEach(data=>{
-                const event=new SportEvent(data["id"],data["userName"],data["location"],data["description"],data["userSurname"],data["type"],data["email"],data["phoneNumber"],data["date"],data["city"],data["timeHours"],data["timeMinutes"]);
-                drawOneEvent(eventsContainer,event);
+                events.push(new SportEvent(data["id"],data["userName"],data["location"],data["description"],data["userSurname"],data["type"],data["email"],data["phoneNumber"],data["date"],data["city"],data["timeHours"],data["timeMinutes"]));
+                //drawOneEvent(eventsContainer,event);
                 //console.log(event);
             });
+            for(let i=events.length-1;i>=0;i--)
+            {
+                drawOneEvent(eventsContainer,events[i]);
+            }
         }
     )
     
@@ -167,7 +285,9 @@ export function drawOneEvent(host,sportEvent)
    seeComents.className="CommentsButton";
    seeComents.innerText="See comments"
    const commentsSection=document.createElement("div");
+   const addComentSection=document.createElement("div");
    commentsSection.className="commentsSection";
+   addComentSection.className="addComent";
    seeComents.onclick=()=>{
        if(commentTrue==true){
         commentsSection.innerHTML="";
@@ -184,10 +304,24 @@ export function drawOneEvent(host,sportEvent)
    addComent.className="CommentsButton";
    addComent.innerText="Add comment";
    addComent.onclick=()=>{
-       drawAddComent(oneEvent,sportEvent.id);
+       if(add==true){
+           addComentSection.innerHTML="";
+           add=false;
+        }
+        else 
+        {   
+            //addComentSection.innerHTML="";
+            drawAddComent(addComentSection,sportEvent.id,commentsSection);
+            add=true;
+        }
    }
    oneEvent.appendChild(addComent);
    oneEvent.appendChild(commentsSection);
+   oneEvent.appendChild(addComentSection);
+   const id=document.createElement("div");
+   id.innerText=sportEvent.id;
+   oneEvent.appendChild(id);
+   id.style.display="none";
 
 }
 export function drawComents(comment,host)
@@ -223,9 +357,58 @@ export function drawNotFound(host)
     notFound.innerText="NOT FOUND";
     host.appendChild(notFound);
 }
-function drawAddComent(host)
+function drawAddComent(host,eventId,eventsContainer)
 {
-
+    const addComentSection=document.createElement("div");
+    addComentSection.className="addComentSection";
+    host.appendChild(addComentSection);
+    const textText=document.createElement("label");
+    textText.className="text"
+    textText.innerText="Text:"
+    addComentSection.appendChild(textText);
+    const inputText=document.createElement("textarea");
+    inputText.className="inputText";
+    inputText.style.resize="none";
+    inputText.style.height="1.5cm";
+    inputText.autofocus="true";
+    addComentSection.appendChild(inputText);
+    const textName=document.createElement("label");
+    textName.innerText="Name:";
+    addComentSection.appendChild(textName);
+    const inputName=document.createElement("input");
+    addComentSection.appendChild(inputName);
+    const textSurname=document.createElement("label");
+    textSurname.innerHTML="Surname:";
+    addComentSection.appendChild(textSurname);
+    const inputSurname=document.createElement("input");
+    addComentSection.appendChild(inputSurname);
+    const textPhone=document.createElement("label");
+    textPhone.innerText="Phone number:";
+    addComentSection.appendChild(textPhone);
+    const inputPhone=document.createElement("input");
+    addComentSection.appendChild(inputPhone);
+    const textEMail=document.createElement("label");
+    textEMail.innerText="EMail:";
+    addComentSection.appendChild(textEMail);
+    const inputEMail=document.createElement("input");
+    addComentSection.appendChild(inputEMail);
+    const addCommentButton=document.createElement("button");
+    addCommentButton.className="addCommentButton";
+    addCommentButton.innerText="Add comment";
+    addComentSection.appendChild(addCommentButton);
+    addCommentButton.onclick=()=>{
+        const date=new Date();
+        const today=date.getFullYear()+"."+date.getMonth()+"."+date.getDate();
+        const currentTime=date.getHours()+":"+date.getMinutes();
+        const commentToAdd=new Comment(null,inputName.value,inputSurname.value,today,inputEMail.value,inputPhone.value,eventId,inputText.value,currentTime);
+        console.log(commentToAdd);
+        addComment(URLComments,commentToAdd);
+        host.innerHTML="";
+        setTimeout(()=>{
+            eventsContainer.innerHTML="";
+            FetchComents(URLComments,eventId,eventsContainer);
+        },500);
+    }
 }
 export function drawPage(host){
     drawHeader(host);
