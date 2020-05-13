@@ -1,5 +1,6 @@
 export class Comment
 {
+    id:number; userName:string; date:string; email:string; phoneNumber:string; eventId:number; text:string; userSurname:string; time:string;
     constructor(id,userName,userSurname,date,EMail,phoneNumber,eventId,text,time)
     {
         this.id=id;

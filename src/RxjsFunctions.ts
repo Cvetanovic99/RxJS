@@ -1,8 +1,8 @@
 import { from, fromEvent, Observable,of, zip } from "rxjs";
 import {filter,take, sampleTime,map,switchMap,takeUntil, delay} from "rxjs/operators";
-import {Comment} from "../classes/Comment.js"
-import {SportEvent} from "../classes/SportEvent.js"
-import { drawComents, drawOneEvent, drawNotFound,drawCity,drawTypeOfEvent } from "./drawingFunctions.js";
+import {Comment} from "../classes/Comment"
+import {SportEvent} from "../classes/SportEvent"
+import { drawComents, drawOneEvent, drawNotFound,drawCity,drawTypeOfEvent } from "./drawingFunctions";
 
 
 
@@ -118,7 +118,7 @@ export function subscribeSearchToInput()
     var cityInput=document.getElementById("byCity");
     fromEvent(cityInput,'input').pipe(
         sampleTime(1000),
-        map(ev=>ev.target.value),
+        map(ev=>(<HTMLTextAreaElement>ev.target).value),
         filter(text=>text.length>=3),
         switchMap(text=>FetchByCity(text))
     ).subscribe(

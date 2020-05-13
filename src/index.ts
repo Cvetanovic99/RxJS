@@ -1,4 +1,4 @@
-import {drawPage} from "./drawingFunctions.js";
+import {drawPage} from "./drawingFunctions";
 import { from, fromEvent, of, Observable } from "rxjs";
 import {takeUntil,take, debounceTime,delay, filter} from "rxjs/operators";
 var niz=["element1","element2","element3","4","5","6"];

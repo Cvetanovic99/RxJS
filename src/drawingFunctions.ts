@@ -1,6 +1,6 @@
-import {FetchAllEvents, FetchComents,FetchSomeEvents,subscribeSearchToInput,FetchOneByOne,FetchCitiesAndTypes,addEvent,addComment} from "./RxjsFunctions.js";
-import {SportEvent} from "../classes/SportEvent.js";
-import {Comment} from "../classes/Comment.js";
+import {FetchAllEvents, FetchComents,FetchSomeEvents,subscribeSearchToInput,FetchOneByOne,FetchCitiesAndTypes,addEvent,addComment} from "./RxjsFunctions";
+import {SportEvent} from "../classes/SportEvent";
+import {Comment} from "../classes/Comment";
 import { readBuilderProgram } from "typescript";
 import { fromEvent } from "rxjs";
 import {take} from "rxjs/operators";
@@ -196,8 +196,8 @@ function drawAddEvent(host){
     timeDiv.appendChild(textTime);
     const timeH=document.createElement("input");
     timeH.type="number";
-    timeH.min=0;
-    timeH.max=23;
+    timeH.min="0";
+    timeH.max="23";
     timeDiv.appendChild(timeH);
     const points=document.createElement("label");
     points.className="text";
@@ -205,8 +205,8 @@ function drawAddEvent(host){
     timeDiv.appendChild(points);
     const timeM=document.createElement("input");
     timeM.type="number";
-    timeM.min=0;
-    timeM.max=59;
+    timeM.min="0";
+    timeM.max="59";
     timeDiv.appendChild(timeM);
     const addButton=document.createElement("button");
     addButton.className="addEventButton";
@@ -215,7 +215,9 @@ function drawAddEvent(host){
     addButton.onclick=()=>{
         const date=new Date();
         const today=date.getFullYear()+"."+date.getMonth()+"."+date.getDate();
-        const sportEvent=new SportEvent(null,inputName.value,inputLocation.value,inputDescription.value,inputSurname.value,inputType.value,inputEMail.value,inputPhone.value,today,inputCity.value,timeH.value,timeM.value);
+        const timeHInt: number=parseInt(timeH.value);
+        const timeMInt:number=parseInt(timeM.value);
+        const sportEvent=new SportEvent(null,inputName.value,inputLocation.value,inputDescription.value,inputSurname.value,inputType.value,inputEMail.value,inputPhone.value,today,inputCity.value,timeHInt,timeMInt);
         addEvent(URLEvents,sportEvent);
         setTimeout(()=>{drawEvents(document.body)},1000);
     }
@@ -370,7 +372,7 @@ function drawAddComent(host,eventId,eventsContainer)
     inputText.className="inputText";
     inputText.style.resize="none";
     inputText.style.height="1.5cm";
-    inputText.autofocus="true";
+    inputText.autofocus=true;
     addComentSection.appendChild(inputText);
     const textName=document.createElement("label");
     textName.innerText="Name:";
@@ -472,8 +474,8 @@ function drawSearchSection(host){
     const byTimeFrom=document.createElement("input");
     byTimeFrom.type="number";
     byTimeFrom.id="byTimeH"
-    byTimeFrom.min=0;
-    byTimeFrom.max=23;
+    byTimeFrom.min="0";
+    byTimeFrom.max="23";
     timeFrom.appendChild(byTimeFrom);
     const byTimeFromPoints=document.createElement("label");
     byTimeFromPoints.innerText=":";
@@ -481,8 +483,8 @@ function drawSearchSection(host){
     const byTimeFromM=document.createElement("input");
     byTimeFromM.type="number";
     byTimeFromM.id="byTimeM";
-    byTimeFromM.min=0;
-    byTimeFromM.max=60;
+    byTimeFromM.min="0";
+    byTimeFromM.max="60";
     timeFrom.appendChild(byTimeFromM);
     const timeTo=document.createElement("div");
     timeTo.className="TimeDiv";
@@ -493,8 +495,8 @@ function drawSearchSection(host){
     const byTimeTo=document.createElement("input");
     byTimeTo.type="number";
     byTimeTo.id="byTimeH";
-    byTimeTo.min=0;
-    byTimeTo.max=23;
+    byTimeTo.min="0";
+    byTimeTo.max="23";
     timeTo.appendChild(byTimeTo);
     const byTimeToPoints=document.createElement("label");
     byTimeToPoints.innerText=":";
@@ -502,8 +504,8 @@ function drawSearchSection(host){
     const byTimeToM=document.createElement("input");
     byTimeToM.type="number";
     byTimeToM.id="byTimeM";
-    byTimeToM.min=0;
-    byTimeToM.max=60;
+    byTimeToM.min="0";
+    byTimeToM.max="59";
     timeTo.appendChild(byTimeToM);
     const byTypeDiv=document.createElement("div");
     byTypeDiv.className="searchDivs"

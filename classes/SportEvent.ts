@@ -1,10 +1,11 @@
 
 export class SportEvent
 {
+    id:number; location:string; description:string; userName:string; userSurname:string; type:string; email:string; phoneNumber:string; date:string; city:string; timeHours:number; timeMinutes:number;
     constructor(id,userName,location,description,userSurname,type,email,phoneNumber,date,city,timeHours,timeMinutes)
     {
         this.id=id,
-        this.coments=[];
+        //this.coments=[];
         this.location=location;
         this.description=description;
         this.userName=userName;
@@ -18,8 +19,8 @@ export class SportEvent
         this.timeMinutes=timeMinutes;
 
     }
-    addComents(coment)
-    {
-        this.coments.push(coment);
-    }
+    // addComents(coment)
+    // {
+    //     this.coments.push(coment);
+    // }
 }
