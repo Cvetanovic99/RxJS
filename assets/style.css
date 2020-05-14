@@ -453,3 +453,33 @@ i {
 .addCommentButton:hover{
     background-color: rgb(35, 35, 153);
 }
+.deleteButtonsDiv{
+    display: flex;
+    justify-content: center;
+}
+.deleteSection{
+    align-self: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.deleteContainer{
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid black;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+    flex-direction: column;
+}
+.deleteButtons{
+    border:none;
+    align-self: center;
+    background-color: rgb(135, 135, 216);
+    margin:3px;
+}
+.deleteButtons:hover{
+    background-color:rgb(35, 35, 153);;
+}

@@ -1,13 +1,14 @@
-import {FetchAllEvents, FetchComents,FetchSomeEvents,subscribeSearchToInput,FetchOneByOne,FetchCitiesAndTypes,addEvent,addComment} from "./RxjsFunctions";
+import {FetchAllEvents, FetchComents,FetchSomeEvents,subscribeSearchToInput,FetchOneByOne,FetchCitiesAndTypes,addEvent,addComment,deleteEvent, deleteComments, deleteEventAndComments} from "./RxjsFunctions";
 import {SportEvent} from "../classes/SportEvent";
 import {Comment} from "../classes/Comment";
 import { readBuilderProgram } from "typescript";
 import { fromEvent } from "rxjs";
 import {take} from "rxjs/operators";
-let URLEvents = "http://localhost:3000/events";
-let URLComments = "http://localhost:3000/comments";
-var commentTrue=false;
-var add=false;
+let URLEvents:string = "http://localhost:3000/events";
+let URLComments:string = "http://localhost:3000/comments";
+let commentTrue:boolean=false;
+let add:boolean=false;
+let deleteFlag:boolean=false;
 
 
 //location.redirect("./main.html");
@@ -212,15 +213,30 @@ function drawAddEvent(host){
     addButton.className="addEventButton";
     addButton.innerText="Add event";
     addInnerContainer.appendChild(addButton);
+    const validationContainer=document.createElement("div");
+    addInnerContainer.appendChild(validationContainer);
     addButton.onclick=()=>{
         const date=new Date();
         const today=date.getFullYear()+"."+date.getMonth()+"."+date.getDate();
         const timeHInt: number=parseInt(timeH.value);
         const timeMInt:number=parseInt(timeM.value);
+        if(!(inputName.value=="" || inputLocation.value=="" || inputDescription.value=="" || inputSurname.value=="" || inputEMail.value=="" || inputPhone.value=="" || inputCity.value=="" || timeH.value=="" || timeM.value=="")){
         const sportEvent=new SportEvent(null,inputName.value,inputLocation.value,inputDescription.value,inputSurname.value,inputType.value,inputEMail.value,inputPhone.value,today,inputCity.value,timeHInt,timeMInt);
         addEvent(URLEvents,sportEvent);
         setTimeout(()=>{drawEvents(document.body)},1000);
+        }
+        else {
+            validationContainer.innerHTML="";
+            drawValidation(validationContainer);
+        }
     }
+}
+function drawValidation(host){
+    const labelValidation=document.createElement("label");
+    labelValidation.innerText="Fill in all fields";
+    labelValidation.style.color="red";
+    labelValidation.style.textAlign="center";
+    host.appendChild(labelValidation);
 }
 function drawSearcEvents(host){
     const events=new Array();
@@ -318,6 +334,23 @@ export function drawOneEvent(host,sportEvent)
         }
    }
    oneEvent.appendChild(addComent);
+   const deleteEvent=document.createElement("button");
+   deleteEvent.className="CommentsButton";
+   deleteEvent.innerText="Delete event";
+   oneEvent.appendChild(deleteEvent);
+   const deleteSection=document.createElement("div");
+   deleteSection.className="deleteSection";
+   oneEvent.appendChild(deleteSection);
+   deleteEvent.onclick=()=>{
+       if(deleteFlag==true){
+           deleteSection.innerHTML="";
+           deleteFlag=false;
+       }
+       else{
+       drawDeleteSection(deleteSection,sportEvent.id);
+       deleteFlag=true;
+       }
+   }
    oneEvent.appendChild(commentsSection);
    oneEvent.appendChild(addComentSection);
    const id=document.createElement("div");
@@ -325,6 +358,43 @@ export function drawOneEvent(host,sportEvent)
    oneEvent.appendChild(id);
    id.style.display="none";
 
+}
+function drawDeleteSection(host,eventId)
+{
+    const container=document.getElementsByClassName("eventsContainer")[0];
+    const deleteContainer=document.createElement("div");
+    deleteContainer.className="deleteContainer"
+    host.appendChild(deleteContainer);
+    const textDelete=document.createElement("label");
+    textDelete.className="textDelete";
+    textDelete.innerText="Do you want to delete event?"
+    textDelete.style.alignSelf="center"
+    deleteContainer.appendChild(textDelete);
+    const deleteButtonsDiv=document.createElement("div");
+    deleteButtonsDiv.className="deleteButtonsDiv";
+    deleteContainer.appendChild(deleteButtonsDiv);
+    const backButton=document.createElement("button");
+    backButton.className="deleteButtons";
+    backButton.innerText="Back";
+    backButton.onclick=()=>
+    {
+        host.innerHTML="";
+        deleteFlag=false;
+    };
+    deleteButtonsDiv.appendChild(backButton);
+    const deleteButton=document.createElement("button");
+    deleteButton.className="deleteButtons";
+    deleteButton.innerText="Delete";
+    deleteButton.onclick=()=>
+    {
+        deleteEventAndComments(URLComments,URLEvents,eventId);
+        setTimeout(()=>
+        {
+            drawEvents(document.body)
+        },500);
+        deleteFlag=false;
+    }
+    deleteButtonsDiv.appendChild(deleteButton);
 }
 export function drawComents(comment,host)
 {
@@ -398,18 +468,30 @@ function drawAddComent(host,eventId,eventsContainer)
     addCommentButton.className="addCommentButton";
     addCommentButton.innerText="Add comment";
     addComentSection.appendChild(addCommentButton);
+    const validationContainer=document.createElement("div");
+    addComentSection.appendChild(validationContainer);
     addCommentButton.onclick=()=>{
         const date=new Date();
         const today=date.getFullYear()+"."+date.getMonth()+"."+date.getDate();
         const currentTime=date.getHours()+":"+date.getMinutes();
-        const commentToAdd=new Comment(null,inputName.value,inputSurname.value,today,inputEMail.value,inputPhone.value,eventId,inputText.value,currentTime);
-        console.log(commentToAdd);
-        addComment(URLComments,commentToAdd);
-        host.innerHTML="";
-        setTimeout(()=>{
-            eventsContainer.innerHTML="";
-            FetchComents(URLComments,eventId,eventsContainer);
-        },500);
+        if(!(inputName.value=="" || inputSurname.value=="" || inputEMail.value=="" || inputPhone.value=="" || inputText.value==""))
+        {
+            const commentToAdd=new Comment(null,inputName.value,inputSurname.value,today,inputEMail.value,inputPhone.value,eventId,inputText.value,currentTime);
+            console.log(commentToAdd);
+            addComment(URLComments,commentToAdd);
+            host.innerHTML="";
+            setTimeout(()=>{
+                eventsContainer.innerHTML="";
+                FetchComents(URLComments,eventId,eventsContainer);
+                commentTrue=true;
+                add=false;
+            },500);
+         }
+         else 
+         {
+            validationContainer.innerHTML="";
+            drawValidation(validationContainer);
+         }
     }
 }
 export function drawPage(host){

@@ -19,8 +19,4 @@ export class SportEvent
         this.timeMinutes=timeMinutes;
 
     }
-    // addComents(coment)
-    // {
-    //     this.coments.push(coment);
-    // }
 }
